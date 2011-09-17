@@ -1,0 +1,5 @@
+*.tmproj
+*.crx
+*.pem
+*.sw?
+.DS_Store
