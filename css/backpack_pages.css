@@ -37,6 +37,10 @@ input[type='text']
 #topLinks
 {
 	border-bottom:1px solid #06c;
+}
+
+#topLinks, #pageContainer
+{
 	width:230px;
 }
 
