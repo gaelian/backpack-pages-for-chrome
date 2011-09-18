@@ -101,7 +101,6 @@ function retrieveContent(xml)
 	initPageListFilter();
 }
 
-// TODO: Separate concerns better. The request() function should only manage XHR. Extract the other stuff.
 function request(path)
 {
 	var username = getItem('username');
