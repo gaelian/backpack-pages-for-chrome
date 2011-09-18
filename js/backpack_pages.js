@@ -10,7 +10,20 @@ function init()
 {
 	var $userDetails = $('#userDetails');
 	var $main = $('#main');
-	$('#loading').hide();
+	
+	$('#loading').ajaxStart(function(){
+		$(this).show();
+	})
+	.ajaxStop(function(){
+	    $(this).hide();
+	});
+
+	$('#pageContainer').ajaxStart(function(){
+		$(this).hide();
+	})
+	.ajaxStop(function(){
+	    $(this).show();
+	});
 
 	if (getItem('username') == undefined)
 	{
@@ -54,6 +67,8 @@ function retrieveContent()
 	var username = getItem('username');
 	request("pages/all");
 	
+	initPageListFilter();
+
 	$('#pageList').click(function(event){
 		$target = $(event.target);
 
@@ -76,17 +91,13 @@ function retrieveContent()
 function request(path)
 {
 	var username = getItem('username');
-	var $loading = $('#loading');
 	var $pageList = $('#pageList');
-	var $pageContainer = $('#pageContainer');
 
 	$.ajax({
 		type: "POST",
 		dataType: "xml",
 		url: getProtocol() + username + ".backpackit.com/ws/" + path,
 		beforeSend: function(xhr){
-			$loading.show();
-			$pageContainer.hide();
 			xhr.setRequestHeader("X-POST_DATA_FORMAT", "xml");
 		},
 		success: function(xml){
@@ -106,21 +117,16 @@ function request(path)
 			});
 			
 			initPageListFilter();
-			$pageContainer.show();
 		},
 		complete:function(){
-			$loading.hide();
 		},
 		error:function (xhr, ajaxOptions, thrownError){
-			var $main = $('#main');
-			var $topLinks = $('#topLinks');
-			
 			if (xhr.status == 403)
 			{
-				$topLinks.hide('slow');
-				$pageContainer.html("<p>XHR error: " + xhr.status + " " + thrownError + "</p>" +
-						   			"<p>This probably means you need to login to Backpack.</p>" + 
-						   			'<p id="login"><a href="#">Login now</a><p>').show();
+				$('#topLinks').hide('slow');
+				$('#pageContainer').html("<p>XHR error: " + xhr.status + " " + thrownError + "</p>" +
+						   				 "<p>This probably means you need to login to Backpack.</p>" + 
+						   				 '<p id="login"><a href="#">Login now</a><p>').show();
 
 				$('#login > a').click(function(event){
 					chrome.tabs.create({ url: getProtocol() + username + '.backpackit.com/login/' });
@@ -128,7 +134,7 @@ function request(path)
 			}
 			else
 			{
-				$pageContainer.html("<p>XHR error: " + xhr.status + " " + thrownError + "</p>").show();
+				$('#pageContainer').html("<p>XHR error: " + xhr.status + " " + thrownError + "</p>").show();
 			}
 		}
 	});
