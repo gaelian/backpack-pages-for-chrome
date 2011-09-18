@@ -53,7 +53,16 @@ function retrieveContent()
 	request("pages/all");
 	
 	$('#pageList').click(function(event){
-		chrome.tabs.create({ url: getProtocol() + username + '.backpackit.com/pages/' + $(event.target).attr('id') });
+		$target = $(event.target);
+
+		if ($target.is('li'))
+		{
+			chrome.tabs.create({ url: getProtocol() + username + '.backpackit.com/pages/' + $target.attr('id') });			
+		}
+		else
+		{
+			chrome.tabs.create({ url: getProtocol() + username + '.backpackit.com/pages/' + $target.parent().attr('id') });
+		}
 	});
 
 	$('#topLinks').click(function(event){
