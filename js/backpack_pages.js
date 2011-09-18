@@ -1,3 +1,4 @@
+// TODO: Add reminder functionality.
 $(document).ready(function()
 {
 	//window.localStorage.clear();
@@ -70,6 +71,7 @@ function retrieveContent()
 	});
 }
 
+// TODO: Separate concerns better. The request() function should only manage XHR. Extract the other stuff.
 function request(path)
 {
 	var username = getItem('username');
@@ -167,6 +169,7 @@ function initPageListFilter()
 	});
 }
 
+// TODO: JS alerts don't work in extensions. Remove these, maybe replace with some other messaging mechanism.
 function getItem(key)
 {
 	var item;
