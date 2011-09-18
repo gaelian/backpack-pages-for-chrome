@@ -1,4 +1,5 @@
 // TODO: Add reminder functionality.
+// TODO: Add options page.
 $(document).ready(function()
 {
 	//window.localStorage.clear();
@@ -169,7 +170,6 @@ function initPageListFilter()
 	});
 }
 
-// TODO: JS alerts don't work in extensions. Remove these, maybe replace with some other messaging mechanism.
 function getItem(key)
 {
 	var item;
@@ -180,7 +180,7 @@ function getItem(key)
 	}
 	catch(e)
 	{
-		alert('Error getting local storage item: ' + e);
+		console.log('Error getting local storage item: ' + e);
 		item = null;
 	}
 	
@@ -196,7 +196,7 @@ function setItem(key, value)
 	}
 	catch(e)
 	{
-		alert('Error setting local storage item: ' + e);
+		console.log('Error setting local storage item: ' + e);
 		return false;
 	}
 	
