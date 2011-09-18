@@ -16,7 +16,7 @@ function init()
 		var $username = $('#username');
 		var $useSsl = $('#useSsl');
 		
-		$('#submit').click(function() {
+		$('#submit').click(function(){
 			if ($username.val().length > 0)
 			{
 	    		setItem('username', $username.val().toLowerCase());
@@ -68,18 +68,17 @@ function request(path)
 	var $pageList = $('#pageList');
 	var $pageContainer = $('#pageContainer');
 
-	// TODO: Make this AJAX call more robust.
 	$.ajax({
 		type: "POST",
 		dataType: "xml",
 		url: getProtocol() + username + ".backpackit.com/ws/" + path,
-		beforeSend: function(xhr) {
+		beforeSend: function(xhr){
 			$loading.show();
 			$pageContainer.hide();
 			xhr.setRequestHeader("X-POST_DATA_FORMAT", "xml");
 		},
-		success: function(xml) {
-			$(xml).find('page').each(function() {
+		success: function(xml){
+			$(xml).find('page').each(function(){
 				var $page = $(this);
 				var $homeLink = $('#home');
 
@@ -97,11 +96,28 @@ function request(path)
 			initPageListFilter();
 			$pageContainer.show();
 		},
-		complete:function() {
+		complete:function(){
 			$loading.hide();
 		},
-		error:function (xhr, ajaxOptions, thrownError) {
-			alert("Error sending XHR request.\n\n" + "Status: " + xhr.status + "\n\n" + thrownError);
+		error:function (xhr, ajaxOptions, thrownError){
+			var $main = $('#main');
+			var $topLinks = $('#topLinks');
+			
+			if (xhr.status == 403)
+			{
+				$topLinks.hide('slow');
+				$pageContainer.html("<p>XHR error: " + xhr.status + " " + thrownError + "</p>" +
+						   			"<p>This probably means you need to login to Backpack.</p>" + 
+						   			'<p id="login"><a href="#">Login now</a><p>').show();
+
+				$('#login > a').click(function(event){
+					chrome.tabs.create({ url: getProtocol() + username + '.backpackit.com/login/' });
+				});
+			}
+			else
+			{
+				$pageContainer.html("<p>XHR error: " + xhr.status + " " + thrownError + "</p>").show();
+			}
 		}
 	});
 }

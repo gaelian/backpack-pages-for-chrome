@@ -50,6 +50,12 @@ input[type='text']
 	padding-top:6px;
 }
 
+#login
+{
+	font-size:18px;
+	text-align:center;
+}
+
 #filterForm
 {
 	margin-top:12px;
