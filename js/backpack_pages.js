@@ -58,16 +58,28 @@ function init()
 	else
 	{
 		$userDetails.hide();
-		retrieveContent();
+		request("pages/all");
 	}
 }
 
-function retrieveContent()
+function retrieveContent(xml)
 {
 	var username = getItem('username');
-	request("pages/all");
-	
-	initPageListFilter();
+
+	$(xml).find('page').each(function(){
+		var $page = $(this);
+		var $homeLink = $('#home');
+
+		if ($page.attr('title').toLowerCase() != username + ' home')
+		{
+			$('#pageList').append('<li id="' + $page.attr('id') + '">' + $page.attr('title') + '</li>');
+		}
+		else
+		{
+			$homeLink.html($page.attr('title'));
+			$homeLink.attr('id', $page.attr('id'));
+		}
+	});
 
 	$('#pageList').click(function(event){
 		$target = $(event.target);
@@ -85,13 +97,14 @@ function retrieveContent()
 	$('#topLinks').click(function(event){
 		chrome.tabs.create({ url: getProtocol() + username + '.backpackit.com/' + $(event.target).attr('id') });
 	});
+
+	initPageListFilter();
 }
 
 // TODO: Separate concerns better. The request() function should only manage XHR. Extract the other stuff.
 function request(path)
 {
 	var username = getItem('username');
-	var $pageList = $('#pageList');
 
 	$.ajax({
 		type: "POST",
@@ -101,32 +114,26 @@ function request(path)
 			xhr.setRequestHeader("X-POST_DATA_FORMAT", "xml");
 		},
 		success: function(xml){
-			$(xml).find('page').each(function(){
-				var $page = $(this);
-				var $homeLink = $('#home');
-
-				if ($page.attr('title').toLowerCase() != username + ' home')
-				{
-					$pageList.append('<li id="' + $page.attr('id') + '">' + $page.attr('title') + '</li>');
-				}
-				else
-				{
-					$homeLink.html($page.attr('title'));
-					$homeLink.attr('id', $page.attr('id'));
-				}
-			});
-			
-			initPageListFilter();
-		},
-		complete:function(){
+			if (path == "pages/all")
+			{
+				retrieveContent(xml);				
+			}
+			else if (path == "/reminders.xml")
+			{
+				// POST reminder.
+			}
+			else
+			{
+				// Log error.
+			}
 		},
 		error:function (xhr, ajaxOptions, thrownError){
 			if (xhr.status == 403)
 			{
-				$('#topLinks').hide('slow');
-				$('#pageContainer').html("<p>XHR error: " + xhr.status + " " + thrownError + "</p>" +
-						   				 "<p>This probably means you need to login to Backpack.</p>" + 
-						   				 '<p id="login"><a href="#">Login now</a><p>').show();
+				$('#main').hide('slow');
+				$('#error').html("<p>XHR error: " + xhr.status + " " + thrownError + "</p>" +
+						   		 "<p>This probably means you need to login to Backpack.</p>" + 
+						   		 '<p id="login"><a href="#">Login now</a><p>').show();
 
 				$('#login > a').click(function(event){
 					chrome.tabs.create({ url: getProtocol() + username + '.backpackit.com/login/' });
@@ -134,7 +141,7 @@ function request(path)
 			}
 			else
 			{
-				$('#pageContainer').html("<p>XHR error: " + xhr.status + " " + thrownError + "</p>").show();
+				$('#error').html("<p>XHR error: " + xhr.status + " " + thrownError + "</p>").show();
 			}
 		}
 	});
