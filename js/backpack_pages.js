@@ -10,19 +10,10 @@ function init()
 {
 	var $userDetails = $('#userDetails');
 	var $main = $('#main');
-	
-	$('#loading').ajaxStart(function(){
-		$(this).show();
-	})
-	.ajaxStop(function(){
-	    $(this).hide();
-	});
+	var $reminderForm = $('#reminderForm');
 
-	$('#pageContainer').ajaxStart(function(){
-		$(this).hide();
-	})
-	.ajaxStop(function(){
-	    $(this).show();
+	$('#addReminder').click(function(event){
+		initReminders();
 	});
 
 	if (getItem('username') == undefined)
@@ -31,7 +22,7 @@ function init()
 		var $username = $('#username');
 		var $useSsl = $('#useSsl');
 		
-		$('#submit').click(function(){
+		$('#save').click(function(){
 			if ($username.val().length > 0)
 			{
 	    		setItem('username', $username.val().toLowerCase());
@@ -46,23 +37,27 @@ function init()
 				}
 
 				$userDetails.hide();
+				$reminderForm.hide();
 				$main.show();
-				retrieveContent();
+				request('ws/pages/all');
+				request('me.xml');
 			}
 			else
 			{
-				$username.addClass("error");
+				$username.addClass('error');
 			}
 	    });
 	}
 	else
 	{
+		var username = getItem('username');
 		$userDetails.hide();
-		request("pages/all");
+		$reminderForm.hide();
+		request('ws/pages/all');
 	}
 }
 
-function retrieveContent(xml)
+function InitMainContent(xml)
 {
 	var username = getItem('username');
 
@@ -86,7 +81,7 @@ function retrieveContent(xml)
 
 		if ($target.is('li'))
 		{
-			chrome.tabs.create({ url: getProtocol() + username + '.backpackit.com/pages/' + $target.attr('id') });			
+			chrome.tabs.create({ url: getProtocol() + username + '.backpackit.com/pages/' + $target.attr('id') });
 		}
 		else
 		{
@@ -101,54 +96,38 @@ function retrieveContent(xml)
 	initPageListFilter();
 }
 
-function request(path)
+function initReminders()
 {
-	var username = getItem('username');
+	var $main = $('#main');
+	var $remindAt = $('#remindAt');
+	var $reminderText = $('#reminderText');
+	var userId = getItem('userId');
 
-	$.ajax({
-		type: "POST",
-		dataType: "xml",
-		url: getProtocol() + username + ".backpackit.com/ws/" + path,
-		beforeSend: function(xhr){
-			xhr.setRequestHeader("X-POST_DATA_FORMAT", "xml");
-		},
-		success: function(xml){
-			if (path == "pages/all")
-			{
-				retrieveContent(xml);				
-			}
-			else if (path == "/reminders.xml")
-			{
-				// POST reminder.
-			}
-			else
-			{
-				// Log error.
-			}
-		},
-		error:function (xhr, ajaxOptions, thrownError){
-			if (xhr.status == 403)
-			{
-				$('#main').hide('slow');
-				$('#error').html("<p>XHR error: " + xhr.status + " " + thrownError + "</p>" +
-						   		 "<p>This probably means you need to login to Backpack.</p>" + 
-						   		 '<p id="login"><a href="#">Login now</a><p>').show();
+	$main.animate({ width:'450px', height: '230px' }, 100);
+	$('#addReminder').hide();
+	$('#topLinks').hide();
+	$('#pageContainer').hide();
+	$('#reminderForm').show();
+	$remindAt.find('option').eq(2).attr('value', '+' + tomorrow(9));
+	$remindAt.find('option').eq(3).attr('value', '+' + tomorrow(14));
+	$remindAt.find('option').eq(5).attr('value', '+' + nextMonday());
+	$('#loading').addClass('loadingReminder');
 
-				$('#login > a').click(function(event){
-					chrome.tabs.create({ url: getProtocol() + username + '.backpackit.com/login/' });
-				});
-			}
-			else
-			{
-				$('#error').html("<p>XHR error: " + xhr.status + " " + thrownError + "</p>").show();
-			}
+	$('#setReminder').click(function(event){
+		var content = $remindAt.val() + " " + $reminderText.val();
+		
+		if ($reminderText.val().length > 0)
+		{	
+			postData = '<reminder><content>' + content + '</content><remindees type="array"><user_id>' + userId + '</user_id></remindees></reminder>';
+			request('reminders.xml', postData);
+			$reminderText.val('');
+			$reminderText.removeClass('error');
+		}
+		else
+		{
+			$reminderText.addClass('error');
 		}
 	});
-}
-
-function getProtocol()
-{
-	return getItem('useSsl') ? "https://" : "http://";
 }
 
 function initPageListFilter()
@@ -180,6 +159,112 @@ function initPageListFilter()
 			}
 		});
 	});
+}
+
+function request(path, postData)
+{
+	var username = getItem('username');
+	var processFlag = true;
+	
+	if (postData != undefined && postData.length > 0)
+	{
+		processFlag = false;
+	}
+
+	$.ajax({
+		type: 'POST',
+		data: postData,
+		dataType: 'xml',
+		contentType: 'application/xml',
+		processData: processFlag,
+		url: getProtocol() + username + '.backpackit.com/' + path,
+		beforeSend: function(xhr){
+			xhr.setRequestHeader('X-POST_DATA_FORMAT', 'xml');
+			$('#pageContainer').hide();
+			$('#loading').show();
+		},
+		success: function(xml){
+			if (path == 'ws/pages/all')
+			{
+				InitMainContent(xml);
+				$('#pageContainer').show();
+				$('#loading').hide();				
+			}
+			else if (path == 'me.xml')
+			{
+				setItem('userId', $(xml).find('id').text());
+			}
+			else if (path == 'reminders.xml')
+			{
+				$('#loading').hide();
+			}
+			else
+			{
+				console.log('Unknown path argument');
+			}
+		},
+		error:function (xhr, ajaxOptions, thrownError){
+			if (xhr.status == 403)
+			{
+				$('#main').hide('slow');
+				$('#error').html("<p>XHR error: " + xhr.status + " " + thrownError + "</p>" +
+						   		 "<p>This probably means you need to login to Backpack.</p>" + 
+						   		 '<p id="login"><a href="#">Login now</a><p>').show();
+
+				$('#login > a').click(function(event){
+					chrome.tabs.create({ url: getProtocol() + username + '.backpackit.com/login/' });
+				});
+			}
+			else
+			{
+				$('#main').hide('slow');
+				$('#error').html("<p>XHR error: " + xhr.status + " " + thrownError + "</p>").show();
+			}
+		}
+	});
+}
+
+function nextMonday()
+{
+	var now = new Date();
+	var dayNames = new Array('sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday');
+	var days = now.getDay();
+
+	while (dayNames[days] != 'monday')
+	{
+		days += 1;
+	}
+
+	var nextMonday = new Date();
+	nextMonday.setTime((now.getTime() + (1000 * 3600 * 24)) * days);
+	nextMonday.setHours(9);
+	nextMonday.setMinutes(0);
+	nextMonday.setSeconds(0);
+	nextMonday.setMilliseconds(0);
+
+	var diffMilliseconds = (nextMonday - now);
+	var diffMinutes = Math.round((diffMilliseconds / 1000) / 60);
+	return diffMinutes.toString();
+}
+
+function tomorrow(hour)
+{
+	var now = new Date();
+	var tomorrow = new Date();
+	tomorrow.setTime(now.getTime() + (1000 * 3600 * 24));
+	tomorrow.setHours(hour);
+	tomorrow.setMinutes(0);
+	tomorrow.setSeconds(0);
+	tomorrow.setMilliseconds(0);
+	
+	var diffMilliseconds = (tomorrow - now);
+	var diffMinutes = Math.ceil((diffMilliseconds / 1000) / 60);
+	return diffMinutes.toString();
+}
+
+function getProtocol()
+{
+	return getItem('useSsl') ? "https://" : "http://";
 }
 
 function getItem(key)

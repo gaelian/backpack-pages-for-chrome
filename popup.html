@@ -15,10 +15,12 @@
     <label for="useSsl">Use SSL with my Backpack account
       <input type="checkbox" id="useSsl">
     </label>
-    <input type="button" id="submit" value="Save">
+    <input type="button" id="save" value="Save">
   </div>
   <div id="main">
-
+    <div id="addReminder">
+      <a href="#">Quick add reminder</a>
+    </div><!-- #addreminder -->
     <ul id="topLinks">
       <li id="newsroom">Newsroom</li>
       <li id="calendar">Calendar</li>
@@ -37,7 +39,28 @@
       <ul id="pageList">
         <li id="home"></li>
       </ul>
-    <div><!-- #pageContainer -->
+    </div><!-- #pageContainer -->
+    <div id="reminderForm">
+      <p>Set a reminder</p>
+      <input type="text" id="reminderText">
+      <select id="remindAt">
+        <option value="now">Now</option>
+        <option value="+180" selected="selected">Later today</option>
+        <option value="">Tomorrow morning</option>
+        <option value="">Tomorrow afternoon</option>
+        <option value="+2880">In a couple of days</option>
+        <option value="">Next Monday</option>
+        <option value="+10080">In a week</option>
+        <option value="+20160">In 2 weeks</option>
+        <option value="+43200">In a month</option>
+        <option value="+259200">In 6 months</option>
+        <option value="+518400">In a year</option>
+        <option value="">----------</option>
+        <option value="specific_time">At a specific time...</option>
+      </select>
+      <input type="button" id="setReminder" value="Set reminder">
+      <a id="back" href="">Back to page links</a>
+    </div><!-- #reminderForm -->
   </div><!-- #main -->
 </body>
 </html>
