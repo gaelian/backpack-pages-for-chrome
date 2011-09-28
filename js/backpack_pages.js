@@ -11,6 +11,7 @@ function init()
 	var $userDetails = $('#userDetails');
 	var $main = $('#main');
 	var $reminderForm = $('#reminderForm');
+	$('#success').hide();
 
 	$('#addReminder').click(function(event){
 		initReminders();
@@ -112,6 +113,7 @@ function initReminders()
 	$remindAt.find('option').eq(3).attr('value', '+' + tomorrow(14));
 	$remindAt.find('option').eq(5).attr('value', '+' + nextMonday());
 	$('#loading').addClass('loadingReminder');
+	$('#success').addClass('successReminder');
 
 	$('#setReminder').click(function(event){
 		var content = $remindAt.val() + " " + $reminderText.val();
@@ -165,6 +167,9 @@ function request(path, postData)
 {
 	var username = getItem('username');
 	var processFlag = true;
+	var $pageContainer = $('#pageContainer');
+	var $success = $('#success');
+	var $loading = $('#loading');
 	
 	if (postData != undefined && postData.length > 0)
 	{
@@ -180,15 +185,16 @@ function request(path, postData)
 		url: getProtocol() + username + '.backpackit.com/' + path,
 		beforeSend: function(xhr){
 			xhr.setRequestHeader('X-POST_DATA_FORMAT', 'xml');
-			$('#pageContainer').hide();
-			$('#loading').show();
+			$pageContainer.hide();
+			$success.hide();
+			$loading.show();
 		},
 		success: function(xml){
 			if (path == 'ws/pages/all')
 			{
 				InitMainContent(xml);
-				$('#pageContainer').show();
-				$('#loading').hide();			
+				$pageContainer.show();
+				$loading.hide();
 			}
 			else if (path == 'me.xml')
 			{
@@ -196,7 +202,8 @@ function request(path, postData)
 			}
 			else if (path == 'reminders.xml')
 			{
-				$('#loading').hide();
+				$loading.hide();
+				$success.show().fadeOut(2000);
 			}
 			else
 			{

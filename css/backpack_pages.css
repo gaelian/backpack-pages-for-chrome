@@ -114,7 +114,7 @@ input[type='text']
 	margin-left:12px;
 }
 
-.loadingReminder
+.loadingReminder, .successReminder
 {
 	position:absolute;
 	left:400px;
