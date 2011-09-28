@@ -13,10 +13,6 @@ function init()
 	var $reminderForm = $('#reminderForm');
 	$('#success').hide();
 
-	$('#addReminder').click(function(event){
-		initReminders();
-	});
-
 	if (getItem('username') == undefined)
 	{
 		$main.hide();
@@ -91,7 +87,13 @@ function InitMainContent(xml)
 	});
 
 	$('#topLinks').click(function(event){
+		event.stopPropagation();
 		chrome.tabs.create({ url: getProtocol() + username + '.backpackit.com/' + $(event.target).attr('id') });
+	});
+
+	$('#addReminder').click(function(event){
+		event.stopPropagation();
+		initReminders();
 	});
 
 	initPageListFilter();
