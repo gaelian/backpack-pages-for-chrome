@@ -101,10 +101,12 @@ function InitMainContent(xml)
 
 function initReminders()
 {
+	var userId = getItem('userId');
 	var $main = $('#main');
 	var $remindAt = $('#remindAt');
 	var $reminderText = $('#reminderText');
-	var userId = getItem('userId');
+	var $date = $('#date')
+	$date.datepicker();
 
 	$main.animate({ width:'450px', height: '230px' }, 100);
 	$('#addReminder').hide();
@@ -132,6 +134,15 @@ function initReminders()
 			$reminderText.addClass('error');
 		}
 	});
+	
+	$remindAt.change(function(){
+		if ($(this).val() == 'specificTime')
+		{
+			$date.datepicker('show');
+		}
+	});
+
+
 }
 
 function initPageListFilter()
