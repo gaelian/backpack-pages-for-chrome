@@ -188,7 +188,7 @@ function request(path, postData)
 			{
 				InitMainContent(xml);
 				$('#pageContainer').show();
-				$('#loading').hide();				
+				$('#loading').hide();			
 			}
 			else if (path == 'me.xml')
 			{
@@ -227,23 +227,42 @@ function request(path, postData)
 function nextMonday()
 {
 	var now = new Date();
-	var dayNames = new Array('sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday');
-	var days = now.getDay();
+	var daysToNextMonday = 0;
+	var day = now.getDay();
 
-	while (dayNames[days] != 'monday')
+	switch(day)
 	{
-		days += 1;
+	case 0:
+		daysToNextMonday = 1;
+		break;
+	case 1:
+		daysToNextMonday = 7;
+		break;
+	case 2:
+		daysToNextMonday = 6;
+		break;
+	case 3:
+		daysToNextMonday = 5;
+		break;
+	case 4:
+		daysToNextMonday = 4;
+		break;
+	case 5:
+		daysToNextMonday = 3;
+		break;
+	case 6:
+		daysToNextMonday = 2;
 	}
 
 	var nextMonday = new Date();
-	nextMonday.setTime((now.getTime() + (1000 * 3600 * 24)) * days);
+	nextMonday.setTime(now.getTime() + ((1000 * 3600 * 24) * daysToNextMonday));
 	nextMonday.setHours(9);
 	nextMonday.setMinutes(0);
 	nextMonday.setSeconds(0);
 	nextMonday.setMilliseconds(0);
 
 	var diffMilliseconds = (nextMonday - now);
-	var diffMinutes = Math.round((diffMilliseconds / 1000) / 60);
+	var diffMinutes = Math.ceil((diffMilliseconds / 1000) / 60);
 	return diffMinutes.toString();
 }
 
