@@ -1,6 +1,6 @@
 # Backpack pages for Chrome
 
-Displays a user's Backpack [backpackit.com](http://backpackit.com/) pages in the toolbar and allows quick reminder entry.
+Displays a user's Backpack ([backpackit.com](http://backpackit.com/)) pages in the toolbar and allows quick reminder entry.
 
 This extension is inspired by the [Backpack Pages](https://addons.mozilla.org/en-US/firefox/addon/backpack-pages/) Firefox Add-on by Ben Mills.
 
