@@ -22,16 +22,7 @@ function init()
 			if ($username.val().length > 0)
 			{
 	    		setItem('username', $username.val().toLowerCase());
-				
-				if ($useSsl.attr('checked'))
-				{
-					setItem('useSsl', true);					
-				}
-				else
-				{
-					setItem('useSsl', false);
-				}
-
+				$useSsl.attr('checked') ? setItem('useSsl', true) : setItem('useSsl', false);
 				$userDetails.hide();
 				$reminderForm.hide();
 				$main.show();
@@ -53,7 +44,7 @@ function init()
 	}
 }
 
-function InitMainContent(xml)
+function initMainContent(xml)
 {
 	var username = getItem('username');
 
@@ -103,9 +94,7 @@ function initReminders()
 	var userId = getItem('userId');
 	var $remindAt = $('#remindAt');
 	var $reminderText = $('#reminderText');
-	initDateTimePicker();
 
-	resizeReminderUi(115);
 	$('#addReminder').hide();
 	$('#topLinks').hide();
 	$('#pageContainer').hide();
@@ -158,6 +147,9 @@ function initReminders()
 			resizeReminderUi(115);
 		}
 	});
+
+	resizeReminderUi(115);
+	initDateTimePicker();
 }
 
 function initDateTimePicker()
@@ -256,7 +248,7 @@ function request(path, postData)
 		success: function(xml){
 			if (path == 'ws/pages/all')
 			{
-				InitMainContent(xml);
+				initMainContent(xml);
 				$pageContainer.show();
 				$loading.hide();
 			}
