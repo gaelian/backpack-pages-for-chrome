@@ -168,12 +168,12 @@ function initDateTimePicker()
 		},
 		onSelect: function(dateText, inst) {
 			var dateSplit = dateText.split('-');
-			$humanDate.show().html(new Date(dateSplit[0], dateSplit[1], dateSplit[2]).toLocaleDateString());
+			console.log(dateSplit)
+			$humanDate.show().html(new Date(dateSplit[0], dateSplit[1] - 1, dateSplit[2]).toLocaleDateString());
 			resizeReminderUi(145);
 		},
 		onClose: function(){
 			$time.css({ marginTop: '0' });
-			$remindAt.val('+180');
 			resizeReminderUi(145);
 		}
 	});
@@ -184,6 +184,12 @@ function initDateTimePicker()
 			resizeReminderUi(300);
 			$date.datepicker('show');
 			$time.show();
+		}
+		else
+		{
+			$humanDate.hide();
+			$time.hide();
+			resizeReminderUi(115);
 		}
 	});
 }
