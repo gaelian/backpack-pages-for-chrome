@@ -29,7 +29,7 @@ function init()
 		}
 		else
 		{
-			setItem('username', '');
+			removeItem('username');
 		}
 
 		$useSsl.attr('checked') ? setItem('useSsl', true) : setItem('useSsl', false);

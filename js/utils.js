@@ -30,3 +30,8 @@ function setItem(key, value)
 	
 	return true;
 }
+
+function removeItem(key)
+{
+	window.localStorage.removeItem(key);
+}

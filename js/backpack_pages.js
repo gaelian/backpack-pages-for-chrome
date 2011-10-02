@@ -10,7 +10,7 @@ function init()
 	var $reminderForm = $('#reminderForm');
 	$('#success').hide();
 
-	if (getItem('username') == '' || getItem('username') == undefined)
+	if (getItem('username') == undefined)
 	{
 		var $username = $('#username');
 		var $useSsl = $('#useSsl');
