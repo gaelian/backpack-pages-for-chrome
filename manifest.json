@@ -1,6 +1,6 @@
 {
   "name": "Backpack Pages",
-  "version": "0.1.0",
+  "version": "0.9.0",
   "description": "Displays a user's Backpack (backpackit.com) pages in the toolbar and allows quick reminder entry.",
   "options_page": "options.html",
   "browser_action": {
