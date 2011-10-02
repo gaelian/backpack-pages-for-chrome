@@ -6,7 +6,7 @@ This extension is inspired by the [Backpack Pages](https://addons.mozilla.org/en
 
 ## Attribution
 
-Tick icon from http://www.centigrade.de.
+Tick icon used in Backpack pages for Chrome's UI from http://www.centigrade.de.
 
 ## Copyright
 
