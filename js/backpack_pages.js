@@ -1,6 +1,5 @@
 // TODO: Add reminder functionality.
 // TODO: Add options page.
-// TODO: Move scripts to the bottom of the popup?
 $(document).ready(function()
 {
 	//window.localStorage.clear();
