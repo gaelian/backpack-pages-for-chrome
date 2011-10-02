@@ -1,7 +1,5 @@
-// TODO: Add options page.
 $(document).ready(function()
 {
-	//window.localStorage.clear();
 	init();
 });
 
@@ -12,11 +10,13 @@ function init()
 	var $reminderForm = $('#reminderForm');
 	$('#success').hide();
 
-	if (getItem('username') == undefined)
+	if (getItem('username') == '' || getItem('username') == undefined)
 	{
-		$main.hide();
 		var $username = $('#username');
 		var $useSsl = $('#useSsl');
+
+		$main.hide();
+		window.localStorage.clear();
 		
 		$('#save').click(function(){
 			if ($username.val().length > 0)
@@ -353,37 +353,4 @@ function tomorrow(hour)
 function getProtocol()
 {
 	return getItem('useSsl') ? "https://" : "http://";
-}
-
-function getItem(key)
-{
-	var item;
-
-	try
-	{
-		item = window.localStorage.getItem(key);
-	}
-	catch(e)
-	{
-		console.log('Error getting local storage item: ' + e);
-		item = null;
-	}
-	
-	return item;
-}
-
-function setItem(key, value)
-{
-	try
-	{
-		window.localStorage.removeItem(key);
-		window.localStorage.setItem(key, value);
-	}
-	catch(e)
-	{
-		console.log('Error setting local storage item: ' + e);
-		return false;
-	}
-	
-	return true;
 }

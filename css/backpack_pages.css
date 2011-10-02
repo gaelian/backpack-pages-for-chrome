@@ -1,3 +1,4 @@
+/* popup.html */
 body {
 	min-width:250px;
 	overflow-x:hidden;
@@ -148,4 +149,42 @@ p#humanDate
 {
 	background-color:#ff6600;
 	color:#eee;
+}
+
+/* options.html */
+header
+{
+	height:30px;
+	background:#edf3fe;
+	text-align:center;
+	padding:12px;
+}
+
+#optionsForm
+{
+	width:50%;
+	margin:auto;
+	padding:12px 0 0 0;
+}
+
+#optionsForm > label
+{
+	font-size:18px;
+}
+
+#optionsForm > input
+{
+	font-size:18px;
+	margin-bottom:12px;
+}
+
+#save
+{
+	margin:18px 12px 0 0;
+}
+
+#optionsForm > #success
+{
+	float:right;
+	margin:8px 590px 0 0;
 }
