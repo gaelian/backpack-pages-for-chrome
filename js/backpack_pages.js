@@ -1,5 +1,6 @@
 // TODO: Add reminder functionality.
 // TODO: Add options page.
+// TODO: Move scripts to the bottom of the popup?
 $(document).ready(function()
 {
 	//window.localStorage.clear();
@@ -102,13 +103,11 @@ function InitMainContent(xml)
 function initReminders()
 {
 	var userId = getItem('userId');
-	var $main = $('#main');
 	var $remindAt = $('#remindAt');
 	var $reminderText = $('#reminderText');
-	var $date = $('#date')
-	$date.datepicker();
+	initDateTimePicker();
 
-	$main.animate({ width:'450px', height: '230px' }, 100);
+	resizeReminderUi(115);
 	$('#addReminder').hide();
 	$('#topLinks').hide();
 	$('#pageContainer').hide();
@@ -120,29 +119,83 @@ function initReminders()
 	$('#success').addClass('successReminder');
 
 	$('#setReminder').click(function(event){
-		var content = $remindAt.val() + " " + $reminderText.val();
+		var content = '';
+		var postData = '';
+		
+		if ($remindAt.val() == 'specificTime')
+		{
+			content = $reminderText.val();
+			var date = $('#date').val();
+			var hour = $('#hour').val();
+			var minute = $('#minute').val();
+			var amPm = $('#amPm').val();
+			
+			if (amPm == 'pm')
+			{
+				hour = parseInt(hour);
+				hour += 12;
+			}
+			
+			var reminderDateTime = date + ' ' + hour + ':' + minute + ':' + '00';
+			postData = '<reminder><remind_at>' + reminderDateTime + '</remind_at><content>' + content + '</content><remindees type="array"><user_id>' + userId + '</user_id></remindees></reminder>';			
+		}
+		else
+		{
+			content = $remindAt.val() + " " + $reminderText.val();
+			postData = '<reminder><content>' + content + '</content><remindees type="array"><user_id>' + userId + '</user_id></remindees></reminder>';
+		}
 		
 		if ($reminderText.val().length > 0)
 		{	
-			postData = '<reminder><content>' + content + '</content><remindees type="array"><user_id>' + userId + '</user_id></remindees></reminder>';
 			request('reminders.xml', postData);
 			$reminderText.val('');
 			$reminderText.removeClass('error');
+			$time.hide();
+			resizeReminderUi(115);
 		}
 		else
 		{
 			$reminderText.addClass('error');
+			$time.hide();
+			resizeReminderUi(115);
 		}
 	});
-	
+}
+
+function initDateTimePicker()
+{
+	var $remindAt = $('#remindAt');
+	var $time = $('#time');
+	var $humanDate = $('#humanDate');
+	var $date = $('#date');
+	$time.hide();
+
+	$date.datepicker({
+		dateFormat: 'yy-mm-dd',
+		beforeShow: function(){
+			$humanDate.hide();
+			$time.css({ marginTop: '194px' });
+		},
+		onSelect: function(dateText, inst) {
+			var dateSplit = dateText.split('-');
+			$humanDate.show().html(new Date(dateSplit[0], dateSplit[1], dateSplit[2]).toLocaleDateString());
+			resizeReminderUi(145);
+		},
+		onClose: function(){
+			$time.css({ marginTop: '0' });
+			$remindAt.val('+180');
+			resizeReminderUi(145);
+		}
+	});
+
 	$remindAt.change(function(){
 		if ($(this).val() == 'specificTime')
 		{
+			resizeReminderUi(300);
 			$date.datepicker('show');
+			$time.show();
 		}
 	});
-
-
 }
 
 function initPageListFilter()
@@ -242,6 +295,12 @@ function request(path, postData)
 			}
 		}
 	});
+}
+
+function resizeReminderUi(height)
+{
+	var $main = $('#main');
+	$main.animate({ width:'450px', height: height + 'px' }, 100);
 }
 
 function nextMonday()

@@ -2,6 +2,7 @@
 <head>
   <meta charset=utf-8>
   <link rel="stylesheet" href="css/backpack_pages.css">
+  <link rel="stylesheet" href="css/custom-theme/jquery-ui-1.8.16.custom.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
   <script src="js/backpack_pages.js"></script>
@@ -47,6 +48,7 @@
     <div id="reminderForm">
       <p>Set a reminder</p>
       <input type="text" id="reminderText">
+      <input type="hidden" id="date">
       <select id="remindAt">
         <option value="now">Now</option>
         <option value="+180" selected="selected">Later today</option>
@@ -63,7 +65,42 @@
         <option value="specificTime">At a specific time...</option>
       </select>
       <input type="button" id="setReminder" value="Set reminder">
-      <input type="hidden" id="date">
+      <p id="humanDate"></p>
+      <div id="time">
+        <span>at</span>
+        <select id="hour">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+        </select>
+        <select id="minute">
+          <option value="00">00</option>
+          <option value="05">05</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+          <option value="20">20</option>
+          <option value="25">25</option>
+          <option value="30">30</option>
+          <option value="35">35</option>
+          <option value="40">40</option>
+          <option value="45">45</option>
+          <option value="50">50</option>
+          <option value="55">55</option>
+        </select>
+        <select id="amPm">
+          <option value="am">am</option>
+          <option value="pm">pm</option>
+        </select>
+      </div><!-- #time -->
       <a id="back" href="">Back to page links</a>
     </div><!-- #reminderForm -->
   </div><!-- #main -->
