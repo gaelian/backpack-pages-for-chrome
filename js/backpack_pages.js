@@ -1,4 +1,3 @@
-// TODO: Add reminder functionality.
 // TODO: Add options page.
 $(document).ready(function()
 {
