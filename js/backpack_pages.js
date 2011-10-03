@@ -174,7 +174,7 @@ function initDateTimePicker()
 		},
 		onClose: function(){
 			$time.hide();
-			resizeReminderUi(145);
+			resizeReminderUi(115);
 		}
 	});
 
