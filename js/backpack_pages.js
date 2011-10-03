@@ -22,7 +22,7 @@ function init()
 		$('#save').click(function(){
 			if ($username.val().length > 0)
 			{
-	    		setItem('username', $username.val().toLowerCase());
+				setItem('username', $username.val().toLowerCase());
 				$useSsl.attr('checked') ? setItem('useSsl', true) : setItem('useSsl', false);
 				$userDetails.hide();
 				$reminderForm.hide();
