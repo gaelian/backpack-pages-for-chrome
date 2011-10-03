@@ -173,7 +173,15 @@ function initDateTimePicker()
 			resizeReminderUi(145);
 		},
 		onClose: function(){
-			$time.hide();
+			if ($date.val().length == 0)
+			{
+				$time.hide();				
+			}
+			else
+			{
+				$time.css({ marginTop: '0' });
+			}
+
 			resizeReminderUi(115);
 		}
 	});
