@@ -169,7 +169,6 @@ function initDateTimePicker()
 		},
 		onSelect: function(dateText, inst) {
 			var dateSplit = dateText.split('-');
-			console.log(dateSplit)
 			$humanDate.show().html(new Date(dateSplit[0], dateSplit[1] - 1, dateSplit[2]).toLocaleDateString());
 			resizeReminderUi(145);
 		},
