@@ -163,7 +163,9 @@ function initDateTimePicker()
 
 	$date.datepicker({
 		dateFormat: 'yy-mm-dd',
-		beforeShow: function(){
+		beforeShow: function(dateText, inst){
+			$(this).val('');
+			$humanDate.html('');
 			$humanDate.hide();
 			$time.css({ marginTop: '194px' });
 		},
@@ -173,7 +175,7 @@ function initDateTimePicker()
 			resizeReminderUi(145);
 		},
 		onClose: function(){
-			if ($date.val().length == 0)
+			if ($(this).val().length == 0)
 			{
 				$time.hide();				
 			}
