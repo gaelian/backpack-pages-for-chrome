@@ -1,4 +1,4 @@
-# Backpack pages for Chrome
+# Backpack pages for Chrome&trade;
 
 Displays a user's Backpack ([backpackit.com](http://backpackit.com/)) pages in the toolbar and allows quick reminder entry.
 
@@ -6,7 +6,11 @@ This extension is inspired by the [Backpack Pages](https://addons.mozilla.org/en
 
 ## Attribution
 
-Tick icon used in Backpack pages for Chrome's UI from http://www.centigrade.de.
+Tick icon used in Backpack pages for Chrome&trade;'s UI from http://www.centigrade.de.
+
+Backpack icon from http://oneseventyseven.com/.
+
+Chrome is a trademark of Google Inc. Use of this trademark is subject to Google Permissions.
 
 ## Copyright
 
