@@ -1,3 +1,4 @@
+// TODO: make the 'back >>>' link work more smoothly.
 $(document).ready(function()
 {
 	init();
