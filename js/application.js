@@ -1,5 +1,6 @@
 // TODO: make the 'Back >>>' link work more smoothly.
 // TODO: time picker should default to current time.
+// TODO: keyboard shortcuts?
 $(document).ready(function()
 {
 	init();
