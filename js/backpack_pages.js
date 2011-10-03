@@ -327,6 +327,9 @@ function nextMonday()
 		break;
 	case 6:
 		daysToNextMonday = 2;
+		break;
+	default:
+		console.log('The day variable is of an unrecognised value');
 	}
 
 	var nextMonday = new Date();
