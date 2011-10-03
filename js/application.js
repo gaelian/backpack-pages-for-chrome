@@ -1,4 +1,5 @@
-// TODO: make the 'back >>>' link work more smoothly.
+// TODO: make the 'Back >>>' link work more smoothly.
+// TODO: time picker should default to current time.
 $(document).ready(function()
 {
 	init();
