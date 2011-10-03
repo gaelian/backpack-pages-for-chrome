@@ -4,6 +4,10 @@ Displays a user's Backpack ([backpackit.com](http://backpackit.com/)) pages in t
 
 This extension is inspired by the [Backpack Pages](https://addons.mozilla.org/en-US/firefox/addon/backpack-pages/) Firefox Add-on by Ben Mills.
 
+## Installation
+
+Install from the [Chrome Web Store](https://chrome.google.com/webstore/detail/dkdoklackhilpgldnnilognhcmjlpkpk).
+
 ## Attribution
 
 Tick icon used in Backpack pages for Chrome&trade;'s UI from http://www.centigrade.de.
