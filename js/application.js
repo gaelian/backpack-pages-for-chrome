@@ -1,5 +1,4 @@
 // TODO: make the 'Back >>>' link work more smoothly.
-// TODO: time picker should default to current time.
 // TODO: keyboard shortcuts?
 $(document).ready(function()
 {
@@ -169,33 +168,30 @@ function initDateTimePicker()
 			$(this).val('');
 			$humanDate.html('');
 			$humanDate.hide();
-			$time.css({ marginTop: '194px' });
 		},
 		onSelect: function(dateText, inst) {
 			var dateSplit = dateText.split('-');
 			$humanDate.show().html(new Date(dateSplit[0], dateSplit[1] - 1, dateSplit[2]).toLocaleDateString());
-			resizeReminderUi(145);
+			$time.show();
 		},
 		onClose: function(){
 			if ($(this).val().length == 0)
 			{
-				$time.hide();				
+				$time.hide();
+				resizeReminderUi(115);				
 			}
 			else
 			{
-				$time.css({ marginTop: '0' });
+				resizeReminderUi(153);
 			}
-
-			resizeReminderUi(115);
 		}
 	});
 
 	$remindAt.change(function(){
 		if ($(this).val() == 'specificTime')
 		{
-			resizeReminderUi(300);
+			resizeReminderUi(290);
 			$date.datepicker('show');
-			$time.show();
 		}
 		else
 		{
@@ -204,6 +200,8 @@ function initDateTimePicker()
 			resizeReminderUi(115);
 		}
 	});
+
+	setCurrentTime();
 }
 
 function initPageListFilter()
@@ -303,6 +301,31 @@ function request(path, postData)
 			}
 		}
 	});
+}
+
+function setCurrentTime()
+{
+	var $hour = $('#hour');
+	var $minute = $('#minute');
+	var $amPm = $('#amPm');
+	var now = new Date();
+	var currentHours = now.getHours();
+	var currentMinutes = now.getMinutes();
+	var currentTwelveHours = (currentHours > 12 ? currentHours - 12 : currentHours);
+	var currentRoundedMinutes = (currentMinutes % 5) >= 2.5 ? parseInt(currentMinutes / 5) * 5 + 5 : parseInt(currentMinutes / 5) * 5;
+
+	if (currentRoundedMinutes == 60)
+	{
+		currentRoundedMinutes = 0;
+		currentTwelveHours += 1;
+	}
+	
+	currentRoundedMinutes = ((currentRoundedMinutes <= 5) ? '0' : '') + currentRoundedMinutes.toString();
+	var currentAmPm = (currentHours > 12 ? 'pm' : 'am');
+
+	$hour.val(currentTwelveHours.toString());
+	$minute.val(currentRoundedMinutes);
+	$amPm.val(currentAmPm);
 }
 
 function resizeReminderUi(height)
