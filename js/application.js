@@ -1,5 +1,6 @@
 // TODO: make the 'Back >>>' link work more smoothly.
 // TODO: keyboard shortcuts?
+// TODO: Handle 422 OK response?
 $(document).ready(function()
 {
 	init();
