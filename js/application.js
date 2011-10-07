@@ -139,18 +139,16 @@ function initReminders()
 			request('reminders.xml', postData);
 			$reminderText.val('');
 			$reminderText.removeClass('error');
-			$time.hide();
-			resizeReminderUi(115);
+			resizeReminderUi(153);
 		}
 		else
 		{
 			$reminderText.addClass('error');
-			$time.hide();
-			resizeReminderUi(115);
+			resizeReminderUi(153);
 		}
 	});
 
-	resizeReminderUi(115);
+	resizeReminderUi(153);
 	initDateTimePicker();
 }
 
@@ -178,7 +176,7 @@ function initDateTimePicker()
 			if ($(this).val().length == 0)
 			{
 				$time.hide();
-				resizeReminderUi(115);				
+				resizeReminderUi(153);				
 			}
 			else
 			{
@@ -197,7 +195,7 @@ function initDateTimePicker()
 		{
 			$humanDate.hide();
 			$time.hide();
-			resizeReminderUi(115);
+			resizeReminderUi(153);
 		}
 	});
 
