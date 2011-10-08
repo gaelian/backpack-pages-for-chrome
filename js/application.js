@@ -1,6 +1,5 @@
-// TODO: make the 'Back >>>' link work more smoothly.
 // TODO: keyboard shortcuts?
-// TODO: Handle 422 (OK) response?
+// TODO: Handle 422 (OK) response when reminder is in the past?
 $(document).ready(function()
 {
 	init();
@@ -95,13 +94,18 @@ function initMainContent(xml)
 function initReminders()
 {
 	var userId = getItem('userId');
+	var $main = $('#main');
 	var $remindAt = $('#remindAt');
 	var $reminderText = $('#reminderText');
+	var $reminderForm = $('#reminderForm');
+	var $addReminder = $('#addReminder');
+	var $topLinks = $('#topLinks');
+	var $pageContainer = $('#pageContainer');
 
-	$('#addReminder').hide();
-	$('#topLinks').hide();
-	$('#pageContainer').hide();
-	$('#reminderForm').show();
+	$addReminder.hide();
+	$topLinks.hide();
+	$pageContainer.hide();
+	$reminderForm.show();
 	$remindAt.find('option').eq(2).attr('value', '+' + tomorrow(9));
 	$remindAt.find('option').eq(3).attr('value', '+' + tomorrow(14));
 	$remindAt.find('option').eq(5).attr('value', '+' + nextMonday());
@@ -147,12 +151,26 @@ function initReminders()
 		}
 	});
 
-	resizeReminderUi(153);
+	$('#back').click(function(event){
+		event.preventDefault();
+		event.stopPropagation();
+		$reminderForm.hide();
+		$main.show();
+		$addReminder.show();
+		$topLinks.show();
+		$pageContainer.show();
+		$('#humanDate').html('');
+		$remindAt.val('+180');
+		$main.animate({ width:'250px' }, 100);
+	});
+
+	$main.animate({ width:'450px', height: '153px' }, 100);
 	initDateTimePicker();
 }
 
 function initDateTimePicker()
 {
+	var $main = $('#main');
 	var $remindAt = $('#remindAt');
 	var $time = $('#time');
 	var $humanDate = $('#humanDate');
@@ -177,14 +195,14 @@ function initDateTimePicker()
 				$time.hide();				
 			}
 
-			resizeReminderUi(153);
+			$main.animate({ width:'450px', height: '153px' }, 100);
 		}
 	});
 
 	$remindAt.change(function(){
 		if ($(this).val() == 'specificTime')
 		{
-			resizeReminderUi(290);
+			$main.animate({ width:'450px', height: '290px' }, 100);
 			$date.datepicker('show');
 		}
 		else
@@ -319,12 +337,6 @@ function setCurrentTime()
 	$hour.val(currentTwelveHours.toString());
 	$minute.val(currentRoundedMinutes);
 	$amPm.val(currentAmPm);
-}
-
-function resizeReminderUi(height)
-{
-	var $main = $('#main');
-	$main.animate({ width:'450px', height: height + 'px' }, 100);
 }
 
 function nextMonday()
