@@ -1,6 +1,6 @@
 // TODO: make the 'Back >>>' link work more smoothly.
 // TODO: keyboard shortcuts?
-// TODO: Handle 422 OK response?
+// TODO: Handle 422 (OK) response?
 $(document).ready(function()
 {
 	init();
@@ -140,12 +140,10 @@ function initReminders()
 			request('reminders.xml', postData);
 			$reminderText.val('');
 			$reminderText.removeClass('error');
-			resizeReminderUi(153);
 		}
 		else
 		{
 			$reminderText.addClass('error');
-			resizeReminderUi(153);
 		}
 	});
 
@@ -176,13 +174,10 @@ function initDateTimePicker()
 		onClose: function(){
 			if ($(this).val().length == 0)
 			{
-				$time.hide();
-				resizeReminderUi(153);				
+				$time.hide();				
 			}
-			else
-			{
-				resizeReminderUi(153);
-			}
+
+			resizeReminderUi(153);
 		}
 	});
 
@@ -196,7 +191,6 @@ function initDateTimePicker()
 		{
 			$humanDate.hide();
 			$time.hide();
-			resizeReminderUi(153);
 		}
 	});
 
