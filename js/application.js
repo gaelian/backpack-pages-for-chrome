@@ -293,7 +293,7 @@ function request(path, postData)
 				console.log('Unknown path argument');
 			}
 		},
-		error:function (xhr, ajaxOptions, thrownError){
+		error: function (xhr, ajaxOptions, thrownError){
 			if (xhr.status == 403)
 			{
 				$('#main').hide('slow');
