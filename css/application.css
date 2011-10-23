@@ -6,7 +6,7 @@ body {
 	font-size:12px;
 	background:#fff;
 	margin:0;
-	padding:0;
+	padding:0 0 0 6px;
 }
 
 body *
@@ -152,6 +152,13 @@ p#humanDate
 }
 
 /* options.html */
+
+body#options
+{
+	padding:0;
+}
+
+
 header
 {
 	height:30px;
