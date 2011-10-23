@@ -200,7 +200,8 @@ function initDateTimePicker()
 		onClose: function(){
 			if ($(this).val().length == 0)
 			{
-				$time.hide();				
+				$time.hide();
+				$remindAt.val('+180');
 			}
 
 			$main.animate({ width:'450px', height: '153px' }, 100);
