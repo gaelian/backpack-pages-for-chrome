@@ -1,5 +1,4 @@
 // TODO: keyboard shortcuts?
-// TODO: Handle 422 (OK) response when reminder is in the past?
 $(document).ready(function()
 {
 	init();
@@ -42,6 +41,12 @@ function init()
 		var username = getItem('username');
 		$userDetails.hide();
 		$reminderForm.hide();
+
+		$('#topLinks').click(function(event){
+			event.stopPropagation();
+			chrome.tabs.create({ url: getProtocol() + username + '.backpackit.com/' + $(event.target).attr('id') });
+		});
+
 		request('ws/pages/all');
 	}
 }
@@ -78,11 +83,6 @@ function initMainContent(xml)
 		}
 	});
 
-	$('#topLinks').click(function(event){
-		event.stopPropagation();
-		chrome.tabs.create({ url: getProtocol() + username + '.backpackit.com/' + $(event.target).attr('id') });
-	});
-
 	$('#addReminder').click(function(event){
 		event.stopPropagation();
 		initReminders();
@@ -101,18 +101,26 @@ function initReminders()
 	var $addReminder = $('#addReminder');
 	var $topLinks = $('#topLinks');
 	var $pageContainer = $('#pageContainer');
+	var $humanDate = $('#humanDate');
+	var $setReminder = $('#setReminder');
+	var $back = $('#back');
 
 	$addReminder.hide();
 	$topLinks.hide();
 	$pageContainer.hide();
+	$main.show();
 	$reminderForm.show();
 	$remindAt.find('option').eq(2).attr('value', '+' + tomorrow(9));
 	$remindAt.find('option').eq(3).attr('value', '+' + tomorrow(14));
 	$remindAt.find('option').eq(5).attr('value', '+' + nextMonday());
-	$('#loading').addClass('loadingReminder');
-	$('#success').addClass('successReminder');
+	$('#loading').addClass('loadingReminder').hide();
+	$('#success').addClass('successReminder').hide();
+	$humanDate.html('');
+	$remindAt.val('+180');
+	$setReminder.unbind('click');
+	$back.unbind('click');
 
-	$('#setReminder').click(function(event){
+	$setReminder.click(function(event){
 		var content = '';
 		var postData = '';
 		
@@ -151,7 +159,7 @@ function initReminders()
 		}
 	});
 
-	$('#back').click(function(event){
+	$back.click(function(event){
 		event.preventDefault();
 		event.stopPropagation();
 		$reminderForm.hide();
@@ -159,7 +167,7 @@ function initReminders()
 		$addReminder.show();
 		$topLinks.show();
 		$pageContainer.show();
-		$('#humanDate').html('');
+		$humanDate.html('');
 		$remindAt.val('+180');
 		$main.animate({ width:'250px' }, 100);
 	});
@@ -296,7 +304,7 @@ function request(path, postData)
 		error: function (xhr, ajaxOptions, thrownError){
 			if (xhr.status == 403)
 			{
-				$('#main').hide('slow');
+				$('#main').hide();
 				$('#error').html("<p>XHR error: " + xhr.status + " " + thrownError + "</p>" +
 						   		 "<p>This probably means you need to login to Backpack.</p>" + 
 						   		 '<p id="login"><a href="#">Login now</a><p>').show();
@@ -305,9 +313,23 @@ function request(path, postData)
 					chrome.tabs.create({ url: getProtocol() + username + '.backpackit.com/login/' });
 				});
 			}
+			else if (xhr.status == 422)
+			{
+				$error = $('#error');
+				$('#main').hide();
+				$error.html("<p>XHR error: " + xhr.status + " " + thrownError + "</p>" +
+						   		 "<p>This probably means you tried to set a reminder in the past.</p>" + 
+						   		 '<p id="tryAgain"><a href="#">Try again</a><p>').show();
+
+				$('#tryAgain > a').click(function(event){
+					event.stopPropagation();
+					$error.hide();
+					initReminders();
+				});
+			}
 			else
 			{
-				$('#main').hide('slow');
+				$('#main').hide();
 				$('#error').html("<p>XHR error: " + xhr.status + " " + thrownError + "</p>").show();
 			}
 		}
