@@ -34,5 +34,5 @@ function init()
 
 		$useSsl.attr('checked') ? setItem('useSsl', true) : setItem('useSsl', false);
 		$success.show().fadeOut(2000);
-    });
+	});
 }
