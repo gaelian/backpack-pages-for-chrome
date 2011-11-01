@@ -1,4 +1,5 @@
 // TODO: keyboard shortcuts?
+// TODO: reminder UI should reset after entering a reminder at a specific time.
 $(document).ready(function()
 {
 	init();
