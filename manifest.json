@@ -1,6 +1,6 @@
 {
   "name": "Backpack pages for Chrome™",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Displays a user's Backpack (backpackit.com) pages in the toolbar and allows quick reminder entry.",
   "options_page": "options.html",
   "icons": {
