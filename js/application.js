@@ -42,6 +42,11 @@ function init()
 		$userDetails.hide();
 		$reminderForm.hide();
 
+		$('#addReminder').click(function(event){
+			event.stopPropagation();
+			initReminders();
+		});
+
 		$('#topLinks').click(function(event){
 			event.stopPropagation();
 			chrome.tabs.create({ url: getProtocol() + username + '.backpackit.com/' + $(event.target).attr('id') });
@@ -81,11 +86,6 @@ function initMainContent(xml)
 		{
 			chrome.tabs.create({ url: getProtocol() + username + '.backpackit.com/pages/' + $target.parent().attr('id') });
 		}
-	});
-
-	$('#addReminder').click(function(event){
-		event.stopPropagation();
-		initReminders();
 	});
 
 	initPageListFilter();
@@ -285,8 +285,12 @@ function request(path, postData)
 			if (path == 'ws/pages/all')
 			{
 				initMainContent(xml);
-				$pageContainer.show();
 				$loading.hide();
+				
+				if (! $('#reminderForm').is(':visible'))
+				{
+					$pageContainer.show();
+				}
 			}
 			else if (path == 'me.xml')
 			{
