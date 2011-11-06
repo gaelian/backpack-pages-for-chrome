@@ -1,5 +1,4 @@
 // TODO: keyboard shortcuts?
-// TODO: reminder UI should reset after entering a reminder at a specific time.
 $(document).ready(function()
 {
 	init();
@@ -139,8 +138,8 @@ function initReminders()
 				hour += 12;
 			}
 			
-			var reminderDateTime = date + ' ' + hour + ':' + minute + ':' + '00';
-			postData = '<reminder><remind_at>' + reminderDateTime + '</remind_at><content>' + content + '</content><remindees type="array"><user_id>' + userId + '</user_id></remindees></reminder>';			
+			var reminderDateTime = date + ' ' + hour + ':' + minute + ':00';
+			postData = '<reminder><remind_at>' + reminderDateTime + '</remind_at><content>' + content + '</content><remindees type="array"><user_id>' + userId + '</user_id></remindees></reminder>';
 		}
 		else
 		{
