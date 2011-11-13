@@ -11,6 +11,16 @@ function init()
 	var $reminderForm = $('#reminderForm');
 	$('#success').hide();
 
+	$('#addReminder').click(function(event){
+		event.stopPropagation();
+		initReminders();
+	});
+
+	$('#topLinks').click(function(event){
+		event.stopPropagation();
+		chrome.tabs.create({ url: getProtocol() + username + '.backpackit.com/' + $(event.target).attr('id') });
+	});
+
 	if (getItem('username') == undefined)
 	{
 		var $username = $('#username');
@@ -41,17 +51,6 @@ function init()
 		var username = getItem('username');
 		$userDetails.hide();
 		$reminderForm.hide();
-
-		$('#addReminder').click(function(event){
-			event.stopPropagation();
-			initReminders();
-		});
-
-		$('#topLinks').click(function(event){
-			event.stopPropagation();
-			chrome.tabs.create({ url: getProtocol() + username + '.backpackit.com/' + $(event.target).attr('id') });
-		});
-
 		request('ws/pages/all');
 	}
 }
