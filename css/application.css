@@ -67,6 +67,13 @@ input[type='text']
 	margin:12px 0 6px 0;
 }
 
+#filter
+{
+	background:url('/images/magnifying_glass.png') no-repeat 2px 3px;
+	padding-left:14px;
+	font-size:1em;
+}
+
 #main ul
 {
 	color:#06c;
