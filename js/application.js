@@ -37,8 +37,8 @@ function init()
 				$userDetails.hide();
 				$reminderForm.hide();
 				$main.show();
-				request('ws/pages/all');
 				request('me.xml');
+				request('ws/pages/all');
 			}
 			else
 			{
@@ -51,6 +51,12 @@ function init()
 		var username = getItem('username');
 		$userDetails.hide();
 		$reminderForm.hide();
+
+		if (getItem('userId') == undefined)
+		{
+			request('me.xml');
+		}
+
 		request('ws/pages/all');
 	}
 }
