@@ -169,7 +169,7 @@ header
 
 #optionsForm
 {
-	width:50%;
+	width:600px;
 	margin:auto;
 	padding:12px 0 0 0;
 }
@@ -193,5 +193,5 @@ header
 #optionsForm > #success
 {
 	float:right;
-	margin:8px 590px 0 0;
+	margin:5px 505px 0 0;
 }
