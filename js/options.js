@@ -22,6 +22,8 @@ function init()
 	}
 
 	$('#save').click(function(){
+		event.preventDefault();
+
 		if ($username.val().length > 0)
 		{
 			setItem('username', $username.val().toLowerCase());

@@ -1,4 +1,3 @@
-// TODO: keyboard shortcuts?
 $(document).ready(function()
 {
 	init();
@@ -30,6 +29,8 @@ function init()
 		window.localStorage.clear();
 		
 		$('#save').click(function(){
+			event.preventDefault();
+
 			if ($username.val().length > 0)
 			{
 				setItem('username', $username.val().toLowerCase());
@@ -71,7 +72,7 @@ function initMainContent(xml)
 
 		if ($page.attr('title').toLowerCase() != username + ' home')
 		{
-			$('#pageList').append('<li id="' + $page.attr('id') + '">' + $page.attr('title') + '</li>');
+			$('#pageList').append('<li><a href="#" id="' + $page.attr('id') + '">' + $page.attr('title') + '</a></li>');
 		}
 		else
 		{
@@ -83,7 +84,7 @@ function initMainContent(xml)
 	$('#pageList').click(function(event){
 		$target = $(event.target);
 
-		if ($target.is('li'))
+		if ($target.is('a'))
 		{
 			chrome.tabs.create({ url: getProtocol() + username + '.backpackit.com/pages/' + $target.attr('id') });
 		}
@@ -126,6 +127,7 @@ function initReminders()
 	$back.unbind('click');
 
 	$setReminder.click(function(event){
+		event.preventDefault();
 		var content = '';
 		var postData = '';
 		
@@ -233,18 +235,18 @@ function initPageListFilter()
 {
 	$('#filterForm').keyup(function() {
 		var $searchQuery = $(this).children("input[type='text']").val();
-		var $listItems = $('#pageList > li');
+		var $links = $('#pageList > li > a');
 
-		$listItems.each(function(){
-			var $listItem = $(this);
+		$links.each(function(){
+			var $link = $(this);
 			
-			if ($listItem.text().search(new RegExp($searchQuery, 'i')) == -1)
+			if ($link.text().search(new RegExp($searchQuery, 'i')) == -1)
 			{
-				$listItem.hide();
+				$link.hide();
 			}
 			else
 			{
-				var text = $listItem.text().replace("/</?strong>/g", "");
+				var text = $link.text().replace("/</?strong>/g", "");
 				
 				if ($searchQuery.length != 0)
 				{
@@ -253,8 +255,8 @@ function initPageListFilter()
 						   });
 				}
 				
-				$listItem.html(text);
-				$listItem.show();
+				$link.html(text);
+				$link.show();
 			}
 		});
 	});

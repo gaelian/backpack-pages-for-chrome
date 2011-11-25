@@ -8,24 +8,24 @@
 <body>
   <div id="error">
   </div>
-  <div id="userDetails">
+  <form action="" method="post" id="userDetails">
     <label for="username">Backpack username</label>
     <input type="text" id="username">
     <label for="useSsl">Use SSL with my Backpack account
       <input type="checkbox" id="useSsl">
     </label>
-    <input type="button" id="save" value="Save">
-  </div>
+    <input type="submit" id="save" value="Save">
+  </form>
   <div id="main">
     <div id="addReminder">
       <a href="#">Quick add reminder</a>
     </div>
     <ul id="topLinks">
-      <li id="newsroom">Newsroom</li>
-      <li id="calendar">Calendar</li>
-      <li id="reminders">Reminders</li>
-      <li id="writeboards">Writeboards</li>
-      <li id="journal_entries">Journal</li>
+      <li><a href="#" id="newsroom">Newsroom</a></li>
+      <li><a href="#" id="calendar">Calendar</a></li>
+      <li><a href="#" id="reminders">Reminders</a></li>
+      <li><a href="#" id="writeboards">Writeboards</a></li>
+      <li><a href="#" id="journal_entries">Journal</a></li>
     </ul>
     <div id="loading">
       <img src="images/loading.gif" alt="Loading...">
@@ -38,10 +38,10 @@
         <input type="text" id="filter">
       </div>
       <ul id="pageList">
-        <li id="home"></li>
+        <li><a href="#" id="home"></a></li>
       </ul>
     </div><!-- #pageContainer -->
-    <div id="reminderForm">
+    <form action="" method="post" id="reminderForm">
       <p>Set a reminder</p>
       <input type="text" id="reminderText">
       <input type="hidden" id="date">
@@ -60,7 +60,7 @@
         <option value="">----------</option>
         <option value="specificTime">At a specific time...</option>
       </select>
-      <input type="button" id="setReminder" value="Set reminder">
+      <input type="submit" id="setReminder" value="Set reminder">
       <p id="humanDate"></p>
       <div id="time">
         <span>at</span>
@@ -98,7 +98,7 @@
         </select>
       </div><!-- #time -->
       <a id="back" href="">Back >>></a>
-    </div><!-- #reminderForm -->
+    </form><!-- #reminderForm -->
   </div><!-- #main -->
   <script src="js/jquery-1.7.min.js"></script>
   <script src="js/jquery-ui-1.8.16.custom.min.js"></script>
