@@ -366,7 +366,7 @@ function setCurrentTime()
 	}
 	
 	currentRoundedMinutes = ((currentRoundedMinutes <= 5) ? '0' : '') + currentRoundedMinutes.toString();
-	var currentAmPm = (currentHours > 12 ? 'pm' : 'am');
+	var currentAmPm = (currentHours >= 12 ? 'pm' : 'am');
 
 	$hour.val(currentTwelveHours.toString());
 	$minute.val(currentRoundedMinutes);
