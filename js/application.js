@@ -45,7 +45,7 @@ function init()
 			{
 				$username.addClass('error');
 			}
-	    });
+	  });
 	}
 	else
 	{
