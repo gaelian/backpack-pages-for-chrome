@@ -166,6 +166,7 @@ function initDateTimePicker()
 	var $time = $('#time');
 	var $humanDate = $('#human-date');
 	var $date = $('#date');
+	var $quickReminder = $('#quick-reminder');
 	$time.hide();
 
 	$date.datepicker({
@@ -185,6 +186,7 @@ function initDateTimePicker()
 			{
 				$time.hide();
 				$remindAt.val('+180');
+				$quickReminder.animate({ height: '124px' }, 100);
 			}
 		}
 	});
@@ -192,7 +194,7 @@ function initDateTimePicker()
 	$remindAt.change(function(){
 		if ($(this).val() == 'specificTime')
 		{
-			$('#quick-reminder').animate({ height: '280px' }, 100);
+			$quickReminder.animate({ height: '300px' }, 100);
 			$date.datepicker('show');
 		}
 		else
