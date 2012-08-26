@@ -1,205 +1,80 @@
 /* popup.html */
-body
-{
+body {
 	min-width:250px;
-	overflow-x:hidden;
-	font-family:'Lucida Grande', verdana, sans-serif;
-	font-size:12px;
-	background:#fff;
-	margin:0;
-	padding:0 0 0 6px;
 }
 
-body *
-{
-	margin:0;
-	padding:0;
+div#user-details-container {
+	padding:0 10px 0 10px;
 }
 
-body a
-{
-	color:#06c;
+form#user-details {
+	margin-left:auto;
+	margin-right:auto;
 }
 
-label
-{
+div#error-message {
+	margin-top:5px;
+	margin-left:5px;
+	margin-right:5px;
+}
+
+div#pages-loading {
+	text-align:center;
+	padding:5px 0 5px 0;
+}
+
+form#filter {
+	margin:18px 0 0 5px;
+}
+
+a#login {
 	display:block;
 }
 
-input[type='text']
-{
-	-webkit-border-radius:3px;
-}
-
-#username
-{
-	margin-bottom:6px;
-}
-
-#save
-{
-	margin:6px 0 6px 0;
-}
-
-#topLinks
-{
-	border-bottom:1px solid #06c;
-}
-
-#topLinks, #pageContainer
-{
-	width:230px;
-}
-
-#loading
-{
-	text-align:center;
-	padding-top:6px;
-}
-
-#login, #tryAgain
-{
-	font-size:18px;
-	text-align:center;
-}
-
-#filterForm
-{
-	margin:12px 0 6px 0;
-}
-
-#filter
-{
-	background:url('/images/magnifying_glass.png') no-repeat 2px 3px;
-	padding-left:14px;
-	font-size:1em;
-}
-
-#main ul
-{
-	color:#06c;
-	text-decoration:underline;
-}
-
-#main ul > li
-{
-	list-style-type:none;
-	cursor:pointer;
-	margin:12px 0 12px 0;
-}
-
-#addReminder
-{
-	float:right;
-	margin-right:18px;
-	height:36px;
-	width:72px;
-	background:#edf3fe;
-	text-align:center;
-}
-
-#reminderForm
-{
-	width:450px;
-}
-
-#reminderForm > p
-{
-	font-size:18px;
-}
-
-#remindAt
-{
-	margin-bottom:6px;
-}
-
-#reminderText
-{
-	display:block;
-	clear:right;
-	margin:0 12px 12px 0;
-	font-size:20px;
-	width:370px;
-}
-
-#setReminder
-{
-	margin-left:12px;
-}
-
-.loadingReminder, .successReminder
-{
-	position:absolute;
-	left:400px;
-	top:12px;
-}
-
-#back
-{
-	position:absolute;
-	bottom:0;
-	left:380px;
+div#quick-reminder {
+	padding-left:10px;
 }
 
 #ui-datepicker-div
 {
-	margin-top:25px;
+	margin-top:33px;
 }
 
-p#humanDate
+div.ui-datepicker{
+ font-size:12px;
+}
+
+div#human-date
 {
+	margin:12px 0 6px 0;
+}
+
+span.time-text {
+	font-size:30px;
+}
+
+span#reminder-loading, span#reminder-success {
 	display:none;
-	margin:6px 0 12px 0;
-	font-size:12px;
-}
-
-.error
-{
-	background-color:#ff6600;
-	color:#eee;
+	position:relative;
+	top:-5px;
 }
 
 /* options.html */
-
-body#options
-{
-	padding:0;
-}
-
-
 header
 {
 	height:30px;
-	background:#edf3fe;
+	background:#ccc;
 	text-align:center;
 	padding:12px;
 }
 
-#optionsForm
+#options-form
 {
 	width:600px;
 	margin:auto;
 	padding:12px 0 0 0;
 }
 
-#optionsForm > label
-{
-	font-size:18px;
-}
-
-#optionsForm > input
-{
-	font-size:18px;
-	margin-bottom:12px;
-}
-
-#save
-{
-	margin:12px 12px 6px 0;
-}
-
-#optionsForm > #success
-{
-	float:right;
-	margin:5px 505px 0 0;
+span#save-success {
+	display:none;
 }

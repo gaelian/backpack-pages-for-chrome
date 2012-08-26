@@ -3,107 +3,125 @@
 <head>
   <title>Backpack pages for Chrome™</title>
   <meta charset="utf-8">
-  <link rel="stylesheet" href="css/application.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/cupertino/jquery-ui-1.8.22.custom.css">
-</head>
-<body>
-  <div id="error">
-  </div>
-  <form action="#" method="post" id="userDetails">
-    <label for="username">Backpack username</label>
-    <input type="text" id="username">
-    <label for="useSsl">Use SSL with my Backpack account
-      <input type="checkbox" id="useSsl">
-    </label>
-    <input type="submit" id="save" value="Save">
-  </form>
-  <div id="main">
-    <div id="addReminder">
-      <a href="#">Quick add reminder</a>
-    </div>
-    <ul id="topLinks">
-      <li><a href="#" id="newsroom">Newsroom</a></li>
-      <li><a href="#" id="calendar">Calendar</a></li>
-      <li><a href="#" id="reminders">Reminders</a></li>
-      <li><a href="#" id="writeboards">Writeboards</a></li>
-      <li><a href="#" id="journal_entries">Journal</a></li>
-    </ul>
-    <div id="loading">
-      <img src="images/loading.gif" alt="Loading...">
-    </div>
-    <div id="success">
-      <img src="images/tick.png" alt="success">
-    </div>
-    <div id="pageContainer">
-      <div id="filterForm">
-        <input type="text" id="filter">
-      </div>
-      <ul id="pageList">
-        <li><a href="#" id="home"></a></li>
-      </ul>
-    </div><!-- #pageContainer -->
-    <form action="#" method="post" id="reminderForm">
-      <p>Set a reminder</p>
-      <input type="text" id="reminderText">
-      <input type="hidden" id="date">
-      <select id="remindAt">
-        <option value="now">Now</option>
-        <option value="+180" selected="selected">Later today</option>
-        <option value="">Tomorrow morning</option>
-        <option value="">Tomorrow afternoon</option>
-        <option value="+2880">In a couple of days</option>
-        <option value="">Next Monday</option>
-        <option value="+10080">In a week</option>
-        <option value="+20160">In 2 weeks</option>
-        <option value="+43200">In a month</option>
-        <option value="+259200">In 6 months</option>
-        <option value="+518400">In a year</option>
-        <option value="">----------</option>
-        <option value="specificTime">At a specific time...</option>
-      </select>
-      <input type="submit" id="setReminder" value="Set reminder">
-      <p id="humanDate"></p>
-      <div id="time">
-        <span>at</span>
-        <select id="hour">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option>
-          <option value="11">11</option>
-          <option value="12">12</option>
-        </select>
-        <select id="minute">
-          <option value="00">00</option>
-          <option value="05">05</option>
-          <option value="10">10</option>
-          <option value="15">15</option>
-          <option value="20">20</option>
-          <option value="25">25</option>
-          <option value="30">30</option>
-          <option value="35">35</option>
-          <option value="40">40</option>
-          <option value="45">45</option>
-          <option value="50">50</option>
-          <option value="55">55</option>
-        </select>
-        <select id="amPm">
-          <option value="am">am</option>
-          <option value="pm">pm</option>
-        </select>
-      </div><!-- #time -->
-      <a id="back" href="">Back >>></a>
-    </form><!-- #reminderForm -->
-  </div><!-- #main -->
+  <link rel="stylesheet" href="css/application.css">
   <script src="js/jquery-1.7.2.min.js"></script>
   <script src="js/jquery-ui-1.8.22.custom.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
   <script src="js/utils.js"></script>
   <script src="js/application.js"></script>
+</head>
+<body>
+  <div id="error-message" class="alert alert-error fade in">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <span id="error-message-content"></span>
+  </div>
+  <div id="user-details-container">
+    <form action="#" method="post" id="user-details">
+      <div id="username-control-group" class="control-group">
+        <label for="username">Backpack username</label>
+        <input type="text" id="username">
+      </div>
+      <label for="use-ssl">Use SSL with my Backpack account
+        <input type="checkbox" id="use-ssl">
+      </label>
+      <input type="submit" id="save" value="Save">
+    </form>
+  </div>
+  <div id="pages-reminder-container">
+    <ul id="main-nav" class="nav nav-tabs">
+      <li><a href="#pages" data-toggle="tab">Pages</a></li>
+      <li class="active"><a href="#quick-reminder" data-toggle="tab">Quick reminder</a></li>
+    </ul>
+  </div>
+  <div class="tab-content">
+    <div id="pages-loading">
+      <img src="img/pages_loading.gif" alt="Loading...">
+      <p>Loading...</p>
+    </div>
+    <div class="tab-pane" id="pages">
+      <ul id="top-links">
+        <li><a href="#" id="newsroom">Newsroom</a></li>
+        <li><a href="#" id="calendar">Calendar</a></li>
+        <li><a href="#" id="reminders">Reminders</a></li>
+        <li><a href="#" id="writeboards">Writeboards</a></li>
+        <li><a href="#" id="journal_entries">Journal</a></li>
+      </ul>
+      <form action="#" id="filter">
+        <i class="icon-search"></i>
+        <input type="text" class="input-large" placeholder="Filter pages">
+      </form>
+      <ul id="page-list" class="nav nav-tabs nav-stacked">
+        <li><a href="#" id="home"></a></li>
+      </ul>
+    </div>
+    <div class="tab-pane" id="quick-reminder">
+      <form action="#" id="reminder-form">
+        <div id="set-reminder-control-group" class="control-group">
+          <input type="text" id="reminder-text" class="input-medium" placeholder="Set a reminder">
+          <span id="reminder-loading">
+            <img src="img/reminder_loading.gif" alt="Loading...">
+          </span>
+          <span id="reminder-success">
+            <img src="img/success.png" alt="Success...">
+          </span>
+        </div>
+        <input type="hidden" id="date">
+        <select id="remind-at">
+          <option value="now">Now</option>
+          <option value="+180" selected="selected">Later today</option>
+          <option value="">Tomorrow morning</option>
+          <option value="">Tomorrow afternoon</option>
+          <option value="+2880">In a couple of days</option>
+          <option value="">Next Monday</option>
+          <option value="+10080">In a week</option>
+          <option value="+20160">In 2 weeks</option>
+          <option value="+43200">In a month</option>
+          <option value="+259200">In 6 months</option>
+          <option value="+518400">In a year</option>
+          <option value="">----------</option>
+          <option value="specificTime">At a specific time...</option>
+        </select>
+        <input type="submit" id="set-reminder" value="Set reminder">
+        <div id="human-date"></div>
+        <div id="time">
+          <select id="hour" class="input-mini">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+          </select>
+          <span class="time-text">:</span>
+          <select id="minute" class="input-mini">
+            <option value="00">00</option>
+            <option value="05">05</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="25">25</option>
+            <option value="30">30</option>
+            <option value="35">35</option>
+            <option value="40">40</option>
+            <option value="45">45</option>
+            <option value="50">50</option>
+            <option value="55">55</option>
+          </select>
+          <select id="am-pm" class="input-mini">
+            <option value="am">am</option>
+            <option value="pm">pm</option>
+          </select>
+        </div>
+      </form>
+    </div>
+  </div>
 </body>
 </html>

@@ -1,57 +1,58 @@
 $(document).ready(function()
 {
+	$userDetailsContainer = $('#user-details-container');
+	$pagesReminderContainer = $('#pages-reminder-container');
+	$errorMessage = $('#error-message');
+	$pagesLoading = $('#pages-loading');
 	init();
 });
 
 function init()
 {
-	var $userDetails = $('#userDetails');
-	var $main = $('#main');
-	var $reminderForm = $('#reminderForm');
-	$('#success').hide();
+	$pagesReminderContainer.hide();
+	$errorMessage.hide();
+	$pagesLoading.hide();
 
-	$('#addReminder').click(function(event){
-		event.stopPropagation();
-		initReminders();
-	});
-
-	$('#topLinks').click(function(event){
-		event.stopPropagation();
-		chrome.tabs.create({ url: getProtocol() + username + '.backpackit.com/' + $(event.target).attr('id') });
-	});
+	$('#main-nav a[href="#pages"]').click(function (e) {
+	  e.preventDefault();
+	  $(this).tab('show');
+	})
+	
+	$('#main-nav a[href="#quick-reminder"]').click(function (e) {
+	  e.preventDefault();
+	  $(this).tab('show');
+	})
 
 	if (getItem('username') == undefined)
 	{
-		var $username = $('#username');
-		var $useSsl = $('#useSsl');
-
-		$main.hide();
 		window.localStorage.clear();
 		
-		$('#save').click(function(){
-			event.preventDefault();
+		var $username = $('#username');
+		var $useSsl = $('#use-ssl');
+
+		$('#save').click(function(e) {
+			e.preventDefault();
 
 			if ($username.val().length > 0)
 			{
 				setItem('username', $username.val().toLowerCase());
 				$useSsl.attr('checked') ? setItem('useSsl', true) : setItem('useSsl', false);
-				$userDetails.hide();
-				$reminderForm.hide();
-				$main.show();
+				$userDetailsContainer.hide();
+				
 				request('me.xml');
 				request('ws/pages/all');
 			}
 			else
 			{
-				$username.addClass('error');
+				$('#username-control-group').addClass('error');
+				$username.focus();
 			}
 	  });
 	}
 	else
 	{
 		var username = getItem('username');
-		$userDetails.hide();
-		$reminderForm.hide();
+		$userDetailsContainer.hide();
 
 		if (getItem('userId') == undefined)
 		{
@@ -66,13 +67,18 @@ function initMainContent(xml)
 {
 	var username = getItem('username');
 
-	$(xml).find('page').each(function(){
+	$('#top-links').click(function(s) {
+		e.stopPropagation();
+		chrome.tabs.create({ url: getProtocol() + username + '.backpackit.com/' + $(event.target).attr('id') });
+	});
+
+	$(xml).find('page').each(function() {
 		var $page = $(this);
 		var $homeLink = $('#home');
 
 		if ($page.attr('title').toLowerCase() != username + ' home')
 		{
-			$('#pageList').append('<li><a href="#" id="' + $page.attr('id') + '">' + $page.attr('title') + '</a></li>');
+			$('#page-list').append('<li><a href="#" id="' + $page.attr('id') + '">' + $page.attr('title') + '</a></li>');
 		}
 		else
 		{
@@ -81,7 +87,7 @@ function initMainContent(xml)
 		}
 	});
 
-	$('#pageList').click(function(event){
+	$('#page-list').click(function(event){
 		$target = $(event.target);
 
 		if ($target.is('a'))
@@ -94,40 +100,26 @@ function initMainContent(xml)
 		}
 	});
 
-	initPageListFilter();
+	$('#main-nav a[href="#pages"]').tab('show');
 }
 
 function initReminders()
 {
 	var userId = getItem('userId');
-	var $main = $('#main');
-	var $remindAt = $('#remindAt');
-	var $reminderText = $('#reminderText');
-	var $reminderForm = $('#reminderForm');
-	var $addReminder = $('#addReminder');
-	var $topLinks = $('#topLinks');
-	var $pageContainer = $('#pageContainer');
-	var $humanDate = $('#humanDate');
-	var $setReminder = $('#setReminder');
-	var $back = $('#back');
+	var $remindAt = $('#remind-at');
+	var $reminderText = $('#reminder-text');
+	var $humanDate = $('#human-date');
+	var $setReminder = $('#set-reminder');
+	var $setReminderControlGroup = $('#set-reminder-control-group');
 
-	$addReminder.hide();
-	$topLinks.hide();
-	$pageContainer.hide();
-	$main.show();
-	$reminderForm.show();
 	$remindAt.find('option').eq(2).attr('value', '+' + tomorrow(9));
 	$remindAt.find('option').eq(3).attr('value', '+' + tomorrow(14));
 	$remindAt.find('option').eq(5).attr('value', '+' + nextMonday());
-	$('#loading').addClass('loadingReminder').hide();
-	$('#success').addClass('successReminder').hide();
 	$humanDate.html('');
 	$remindAt.val('+180');
-	$setReminder.unbind('click');
-	$back.unbind('click');
 
-	$setReminder.click(function(event){
-		event.preventDefault();
+	$setReminder.click(function(e){
+		e.preventDefault();
 		var content = '';
 		var postData = '';
 		
@@ -137,7 +129,7 @@ function initReminders()
 			var date = $('#date').val();
 			var hour = $('#hour').val();
 			var minute = $('#minute').val();
-			var amPm = $('#amPm').val();
+			var amPm = $('#am-pm').val();
 			
 			if (amPm == 'pm')
 			{
@@ -158,37 +150,21 @@ function initReminders()
 		{	
 			request('reminders.xml', postData);
 			$reminderText.val('');
-			$reminderText.removeClass('error');
+			$setReminderControlGroup.removeClass('error');
 		}
 		else
 		{
-			$reminderText.addClass('error');
+			$setReminderControlGroup.addClass('error');
+			$reminderText.focus();
 		}
 	});
-
-	$back.click(function(event){
-		event.preventDefault();
-		event.stopPropagation();
-		$reminderForm.hide();
-		$main.show();
-		$addReminder.show();
-		$topLinks.show();
-		$pageContainer.show();
-		$humanDate.html('');
-		$remindAt.val('+180');
-		$main.animate({ width:'250px' }, 100);
-	});
-
-	$main.animate({ width:'450px', height: '153px' }, 100);
-	initDateTimePicker();
 }
 
 function initDateTimePicker()
 {
-	var $main = $('#main');
-	var $remindAt = $('#remindAt');
+	var $remindAt = $('#remind-at');
 	var $time = $('#time');
-	var $humanDate = $('#humanDate');
+	var $humanDate = $('#human-date');
 	var $date = $('#date');
 	$time.hide();
 
@@ -210,15 +186,13 @@ function initDateTimePicker()
 				$time.hide();
 				$remindAt.val('+180');
 			}
-
-			$main.animate({ width:'450px', height: '153px' }, 100);
 		}
 	});
 
 	$remindAt.change(function(){
 		if ($(this).val() == 'specificTime')
 		{
-			$main.animate({ width:'450px', height: '290px' }, 100);
+			$('#quick-reminder').animate({ height: '280px' }, 100);
 			$date.datepicker('show');
 		}
 		else
@@ -227,17 +201,15 @@ function initDateTimePicker()
 			$time.hide();
 		}
 	});
-
-	setCurrentTime();
 }
 
 function initPageListFilter()
 {
-	$('#filterForm').keyup(function() {
+	$('#filter').keyup(function() {
 		var $searchQuery = $(this).children("input[type='text']").val();
-		var $links = $('#pageList > li > a');
+		var $links = $('#page-list > li > a');
 
-		$links.each(function(){
+		$links.each(function() {
 			var $link = $(this);
 			
 			if ($link.text().search(new RegExp($searchQuery, 'i')) == -1)
@@ -266,9 +238,8 @@ function request(path, postData)
 {
 	var username = getItem('username');
 	var processFlag = true;
-	var $pageContainer = $('#pageContainer');
-	var $success = $('#success');
-	var $loading = $('#loading');
+	var $reminderSuccess = $('#reminder-success');
+	var $reminderLoading = $('#reminder-loading');
 	
 	if (postData != undefined && postData.length > 0)
 	{
@@ -284,20 +255,24 @@ function request(path, postData)
 		url: getProtocol() + username + '.backpackit.com/' + path,
 		beforeSend: function(xhr){
 			xhr.setRequestHeader('X-POST_DATA_FORMAT', 'xml');
-			$pageContainer.hide();
-			$success.hide();
-			$loading.show();
+			if (path == 'reminders.xml')
+			{
+				$reminderLoading.show();
+			}
+			else
+			{
+				$pagesLoading.show();
+			}
 		},
 		success: function(xml){
 			if (path == 'ws/pages/all')
 			{
+				$pagesReminderContainer.show();
 				initMainContent(xml);
-				$loading.hide();
-				
-				if (! $('#reminderForm').is(':visible'))
-				{
-					$pageContainer.show();
-				}
+				initPageListFilter();
+				initReminders();
+				initDateTimePicker();
+				setCurrentTime();
 			}
 			else if (path == 'me.xml')
 			{
@@ -305,8 +280,7 @@ function request(path, postData)
 			}
 			else if (path == 'reminders.xml')
 			{
-				$loading.hide();
-				$success.show().fadeOut(2000);
+				$reminderSuccess.show().fadeOut(2000);
 			}
 			else
 			{
@@ -316,33 +290,35 @@ function request(path, postData)
 		error: function (xhr, ajaxOptions, thrownError){
 			if (xhr.status == 403)
 			{
-				$('#main').hide();
-				$('#error').html("<p>XHR error: " + xhr.status + " " + thrownError + "</p>" +
-						   		 "<p>This probably means you need to login to Backpack.</p>" + 
-						   		 '<p id="login"><a href="#">Login now</a><p>').show();
+				$('#error-message').show()
+				$('#error-message-content').html("XHR error: " + xhr.status + " " + thrownError +
+					". This probably means you need to login to Backpack. " + 
+					'<a id="login" href="#">Login now</a>');
 
-				$('#login > a').click(function(event){
+				$('#login').click(function(event){
 					chrome.tabs.create({ url: getProtocol() + username + '.backpackit.com/login/' });
 				});
 			}
 			else if (xhr.status == 422)
 			{
-				$error = $('#error');
-				$('#main').hide();
-				$error.html("<p>XHR error: " + xhr.status + " " + thrownError + "</p>" +
-						   		 "<p>This probably means you tried to set a reminder in the past.</p>" + 
-						   		 '<p id="tryAgain"><a href="#">Try again</a><p>').show();
-
-				$('#tryAgain > a').click(function(event){
-					event.stopPropagation();
-					$error.hide();
-					initReminders();
-				});
+				$('#error-message').show()
+				$('#error-message-content').html("XHR error: " + xhr.status + " " + thrownError +
+					". This probably means you tried to set a reminder in the past.");
 			}
 			else
 			{
-				$('#main').hide();
-				$('#error').html("<p>XHR error: " + xhr.status + " " + thrownError + "</p>").show();
+				$('#error-message').show()
+				$('#error').html("XHR error: " + xhr.status + " " + thrownError + ".");
+			}
+		},
+		complete: function() {
+			if (path == 'reminders.xml')
+			{
+				$reminderLoading.hide();
+			}
+			else
+			{
+				$pagesLoading.hide();
 			}
 		}
 	});
@@ -352,7 +328,7 @@ function setCurrentTime()
 {
 	var $hour = $('#hour');
 	var $minute = $('#minute');
-	var $amPm = $('#amPm');
+	var $amPm = $('#am-pm');
 	var now = new Date();
 	var currentHours = now.getHours();
 	var currentMinutes = now.getMinutes();

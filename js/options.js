@@ -5,11 +5,11 @@ $(document).ready(function()
 
 function init()
 {
-	var $success = $('#success');
+	var $saveSuccess = $('#save-success');
 	var $username = $('#username');
-	var $useSsl = $('#useSsl');
+	var $useSsl = $('#use-ssl');
 
-	$success.hide();
+	$saveSuccess.hide();
 	$username.val(getItem('username'));
 
 	if (getItem('useSsl') == 'true')
@@ -36,6 +36,6 @@ function init()
 			removeItem('useSsl');
 		}
 
-		$success.show().fadeOut(2000);
+		$saveSuccess.show().fadeOut(2000);
 	});
 }

@@ -5,12 +5,12 @@
   "description": "Displays a user's Backpack (backpackit.com) pages in the toolbar and allows quick reminder entry.",
   "options_page": "options.html",
   "icons": {
-    "16": "images/icon_16.png",
-    "48": "images/icon_48.png",
-    "128": "images/icon_128.png"
+    "16": "img/icon_16.png",
+    "48": "img/icon_48.png",
+    "128": "img/icon_128.png"
   },
   "browser_action": {
-    "default_icon": "images/icon_19.png",
+    "default_icon": "img/icon_19.png",
     "default_popup": "popup.html"
   },
   "permissions": [

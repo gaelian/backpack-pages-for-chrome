@@ -3,26 +3,29 @@
 <head>
   <title>Backpack pages for Chrome™</title>
   <meta charset="utf-8">
-  <link rel="stylesheet" href="css/application.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/custom-theme/jquery-ui-1.8.22.custom.css">
+  <link rel="stylesheet" href="css/application.css">
   <script src="js/jquery-1.7.2.min.js"></script>
+  <script src="js/jquery-ui-1.8.22.custom.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
   <script src="js/utils.js"></script>
   <script src="js/options.js"></script>
 </head>
-<body id="options">
+<body>
   <header>
     <h1>Backpack pages for Chrome</h1>
   </header>
-  <form action="#" method="post" id="optionsForm">
+  <form action="#" id="options-form">
     <label for="username">Backpack username</label>
-    <input type="text" id="username">
-    <label for="useSsl">Use SSL with my Backpack account
-      <input type="checkbox" id="useSsl">
+    <input type="text" id="username" class="input-xlarge">
+    <label for="use-ssl">Use SSL with my Backpack account
+      <input type="checkbox" id="use-ssl">
     </label>
     <input type="submit" id="save" value="Save">
-    <div id="success">
-      <img src="images/tick.png" alt="success">
-    </div>
+    <span id="save-success">
+      <img src="img/success.png" alt="success">
+    </span>
   </form>
 </body>
 </html>
