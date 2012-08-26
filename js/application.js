@@ -67,7 +67,7 @@ function initMainContent(xml)
 {
 	var username = getItem('username');
 
-	$('#top-links').click(function(s) {
+	$('#top-links').click(function(e) {
 		e.stopPropagation();
 		chrome.tabs.create({ url: getProtocol() + username + '.backpackit.com/' + $(event.target).attr('id') });
 	});
