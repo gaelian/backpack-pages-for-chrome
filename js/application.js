@@ -87,7 +87,7 @@ function initMainContent(xml)
 		}
 	});
 
-	$('#page-list').click(function(event){
+	$('#page-list').click(function(event) {
 		$target = $(event.target);
 
 		if ($target.is('a'))
@@ -118,7 +118,7 @@ function initReminders()
 	$humanDate.html('');
 	$remindAt.val('+180');
 
-	$setReminder.click(function(e){
+	$setReminder.click(function(e) {
 		e.preventDefault();
 		var content = '';
 		var postData = '';
@@ -171,7 +171,7 @@ function initDateTimePicker()
 
 	$date.datepicker({
 		dateFormat: 'yy-mm-dd',
-		beforeShow: function(dateText, inst){
+		beforeShow: function(dateText, inst) {
 			$(this).val('');
 			$humanDate.html('');
 			$humanDate.hide();
@@ -181,7 +181,7 @@ function initDateTimePicker()
 			$humanDate.show().html(new Date(dateSplit[0], dateSplit[1] - 1, dateSplit[2]).toLocaleDateString());
 			$time.show();
 		},
-		onClose: function(){
+		onClose: function() {
 			if ($(this).val().length == 0)
 			{
 				$time.hide();
@@ -191,7 +191,7 @@ function initDateTimePicker()
 		}
 	});
 
-	$remindAt.change(function(){
+	$remindAt.change(function() {
 		if ($(this).val() == 'specificTime')
 		{
 			$quickReminder.animate({ height: '300px' }, 100);
@@ -255,7 +255,7 @@ function request(path, postData)
 		contentType: 'application/xml',
 		processData: processFlag,
 		url: getProtocol() + username + '.backpackit.com/' + path,
-		beforeSend: function(xhr){
+		beforeSend: function(xhr) {
 			xhr.setRequestHeader('X-POST_DATA_FORMAT', 'xml');
 			if (path == 'reminders.xml')
 			{
@@ -266,7 +266,7 @@ function request(path, postData)
 				$pagesLoading.show();
 			}
 		},
-		success: function(xml){
+		success: function(xml) {
 			if (path == 'ws/pages/all')
 			{
 				$pagesReminderContainer.show();
@@ -289,7 +289,7 @@ function request(path, postData)
 				console.log('Unknown path argument');
 			}
 		},
-		error: function (xhr, ajaxOptions, thrownError){
+		error: function (xhr, ajaxOptions, thrownError) {
 			if (xhr.status == 403)
 			{
 				$('#error-message').show()
@@ -297,7 +297,7 @@ function request(path, postData)
 					". This probably means you need to login to Backpack. " + 
 					'<a id="login" href="#">Login now</a>');
 
-				$('#login').click(function(event){
+				$('#login').click(function(event) {
 					chrome.tabs.create({ url: getProtocol() + username + '.backpackit.com/login/' });
 				});
 			}
