@@ -1,6 +1,6 @@
 # Backpack pages for Chrome&trade;
 
-Displays all Backpack ([backpackit.com](http://backpackit.com/)) pages.
+Displays all Backpack ([backpackit.com](http://backpackit.com/)) pages and allows for quick reminder entry.
 
 The 'Pages' tab includes links to:
 
@@ -26,7 +26,7 @@ Install from the [Chrome Web Store](https://chrome.google.com/webstore/detail/dk
 
 Design elements from [Twitter Bootstrap](http://twitter.github.com/bootstrap/).
 
-Icons from [http://glyphicons.com/](glyphicons.com), [http://ajaxload.info/](ajaxload.info) and [http://oneseventyseven.com/](oneseventyseven.com).
+Icons from [glyphicons.com](http://glyphicons.com/), [ajaxload.info](http://ajaxload.info/) and [oneseventyseven.com](http://oneseventyseven.com/).
 
 Chrome is a trademark of Google Inc. Use of this trademark is subject to Google Permissions.
 
