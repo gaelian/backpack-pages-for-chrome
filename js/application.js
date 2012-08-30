@@ -1,9 +1,22 @@
+var $userDetailsContainer = null;
+var $pagesReminderContainer = null;
+var $errorMessage = null;
+var $pagesLoading = null;
+var $remindAt = null;
+var $time = null;
+var $humanDate = null;
+var $quickReminder = null;
+
 $(document).ready(function()
 {
 	$userDetailsContainer = $('#user-details-container');
 	$pagesReminderContainer = $('#pages-reminder-container');
 	$errorMessage = $('#error-message');
 	$pagesLoading = $('#pages-loading');
+	$remindAt = $('#remind-at');
+	$time = $('#time');
+	$humanDate = $('#human-date');
+	$quickReminder = $('#quick-reminder');
 	init();
 });
 
@@ -106,9 +119,7 @@ function initMainContent(xml)
 function initReminders()
 {
 	var userId = getItem('userId');
-	var $remindAt = $('#remind-at');
 	var $reminderText = $('#reminder-text');
-	var $humanDate = $('#human-date');
 	var $setReminder = $('#set-reminder');
 	var $setReminderControlGroup = $('#set-reminder-control-group');
 
@@ -151,6 +162,10 @@ function initReminders()
 			request('reminders.xml', postData);
 			$reminderText.val('');
 			$setReminderControlGroup.removeClass('error');
+			$remindAt.val('+180');
+			$humanDate.hide();
+			$time.hide();
+			$quickReminder.animate({ height: '124px' }, 100);
 		}
 		else
 		{
@@ -162,11 +177,7 @@ function initReminders()
 
 function initDateTimePicker()
 {
-	var $remindAt = $('#remind-at');
-	var $time = $('#time');
-	var $humanDate = $('#human-date');
 	var $date = $('#date');
-	var $quickReminder = $('#quick-reminder');
 	$time.hide();
 
 	$date.datepicker({
@@ -201,6 +212,7 @@ function initDateTimePicker()
 		{
 			$humanDate.hide();
 			$time.hide();
+			$quickReminder.animate({ height: '124px' }, 100);
 		}
 	});
 }
