@@ -205,7 +205,7 @@ function initDateTimePicker()
 	$remindAt.change(function() {
 		if ($(this).val() == 'specificTime')
 		{
-			$quickReminder.animate({ height: '300px' }, 100);
+			$quickReminder.animate({ height: '324px' }, 100);
 			$date.datepicker('show');
 		}
 		else
